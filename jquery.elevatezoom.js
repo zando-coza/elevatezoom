@@ -93,6 +93,10 @@ if ( typeof Object.create !== 'function' ) {
 				}, length || self.options.refresh );
 			},
 
+            getSpinnerHtml: function (self) {
+                return $('<div style="background: url(\''+self.options.loadingIcon+'\') no-repeat center;height:'+self.nzHeight+'px;width:'+self.nzWidth+'px;z-index: 2000;position: absolute; background-position: center center;"></div>')
+            },
+
 			fetch: function(imgsrc) {
 				//get the image
 				var self = this;
@@ -1160,7 +1164,8 @@ if ( typeof Object.create !== 'function' ) {
 				var newImg = new Image(); 
 
 				if(self.options.loadingIcon){
-					self.spinner = $('<div style="background: url(\''+self.options.loadingIcon+'\') no-repeat center;height:'+self.nzHeight+'px;width:'+self.nzWidth+'px;z-index: 2000;position: absolute; background-position: center center;"></div>');
+                    self.spinner = self.options.spinner(self);
+                    debugger;
 					self.$elem.after(self.spinner);
 				}
 
@@ -1722,7 +1727,7 @@ if ( typeof Object.create !== 'function' ) {
 
 	$.fn.elevateZoom.options = {
 			zoomActivation: "hover", // Can also be click (PLACEHOLDER FOR NEXT VERSION)
-      zoomEnabled: true, //false disables zoomwindow from showing
+            zoomEnabled: true, //false disables zoomwindow from showing
 			preloading: 1, //by default, load all the images, if 0, then only load images after activated (PLACEHOLDER FOR NEXT VERSION)
 			zoomLevel: 1, //default zoom level of image
 			scrollZoom: false, //allow zoom on mousewheel, true to activate
@@ -1771,7 +1776,8 @@ if ( typeof Object.create !== 'function' ) {
 			onComplete: $.noop,
 			onZoomedImageLoaded: function() {},
 			onImageSwap: $.noop,
-			onImageSwapComplete: $.noop
+			onImageSwapComplete: $.noop,
+            spinner: self.getSpinnerHtml
 	};
 
 })( jQuery, window, document );
