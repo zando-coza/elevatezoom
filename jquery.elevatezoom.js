@@ -94,7 +94,7 @@ if ( typeof Object.create !== 'function' ) {
 			},
 
             getSpinnerHtml: function (self) {
-                return $('<div style="background: url(\''+self.options.loadingIcon+'\') no-repeat center;height:'+self.nzHeight+'px;width:'+self.nzWidth+'px;z-index: 2000;position: absolute; background-position: center center;"></div>')
+                return '<div style="background: url(\''+self.options.loadingIcon+'\') no-repeat center;height:'+self.nzHeight+'px;width:'+self.nzWidth+'px;z-index: 2000;position: absolute; background-position: center center;"></div>';
             },
 
 			fetch: function(imgsrc) {
@@ -1164,8 +1164,7 @@ if ( typeof Object.create !== 'function' ) {
 				var newImg = new Image(); 
 
 				if(self.options.loadingIcon){
-                    self.spinner = self.options.spinner(self);
-                    debugger;
+                    self.spinner = $(self.options.spinner(self));
 					self.$elem.after(self.spinner);
 				}
 
