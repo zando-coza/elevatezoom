@@ -54,6 +54,12 @@ if ( typeof Object.create !== 'function' ) {
 				//Create the image swap from the gallery 
 				$('#'+self.options.gallery + ' a').click( function(e) { 
 
+					                    //Set a class on the currently active gallery image
+                    if(self.options.galleryActiveClass){
+                        $('#'+self.options.gallery + ' a').removeClass(self.options.galleryActiveClass);
+                        $(this).addClass(self.options.galleryActiveClass);
+                    }
+
 					//stop any link on the a tag from working
 					e.preventDefault();
 
