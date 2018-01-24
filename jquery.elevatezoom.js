@@ -48,28 +48,34 @@ if ( typeof Object.create !== 'function' ) {
 				self.zoomImage = self.imageSrc;
 
 				self.refresh( 1 );
+                
+                //Create the image swap from the gallery - click/touch
+                $('#'+self.options.gallery + ' a').click( function(e) {
 
-
-
-				//Create the image swap from the gallery 
-				$('#'+self.options.gallery + ' a').click( function(e) { 
-
-					                    //Set a class on the currently active gallery image
+                    //Set a class on the currently active gallery image
                     if(self.options.galleryActiveClass){
                         $('#'+self.options.gallery + ' a').removeClass(self.options.galleryActiveClass);
                         $(this).addClass(self.options.galleryActiveClass);
                     }
 
-					//stop any link on the a tag from working
-					e.preventDefault();
+                    //stop any link on the a tag from working
+                    e.preventDefault();
 
-					//call the swap image function            
-					if($(this).data("zoom-image")){self.zoomImagePre = $(this).data("zoom-image")}
-					else{self.zoomImagePre = $(this).data("image");}
-					self.swaptheimage($(this).data("image"), self.zoomImagePre);
-					return false;
-				});
+                    if(self.options.videoSupport && $(this).data("video-id")) {
+                        self.swapToVideo($(this).data("video-id"));
+                    } else {
+                        //call the swap image function
+                        if($(this).data("zoom-image")) {
+                            self.zoomImagePre = $(this).data("zoom-image")
+                        } else {
+                            self.zoomImagePre = $(this).data("image");
+                        }
 
+                        self.swaptheimage($(this).data("image"), self.zoomImagePre);
+                    }
+                    
+                    return false;
+                });
 			},
 
 			refresh: function( length ) {
@@ -944,11 +950,26 @@ if ( typeof Object.create !== 'function' ) {
 					self.zoomTintImage.css({'left': self.tintpos-self.options.lensBorder+'px'});
 					self.zoomTintImage.css({'top': self.tintposy-self.options.lensBorder+'px'});
 				}
-			},
+            },
+
+            swapToVideo: function(videoId) {
+                var self = this;
+
+                self.$elem.hide();
+                self.zoomContainer.hide();
+                self.options.loadVideo(videoId);
+            },
 
 			swaptheimage: function(smallimage, largeimage){
 				var self = this;
-				var newImg = new Image(); 
+                var newImg = new Image(); 
+                
+                if(self.options.videoSupport) {
+                    $(self.options.videoSelector).hide();
+                    self.$elem.show();
+                    self.zoomContainer.show();
+                }
+
 				newImg.onload = function() {
 					self.largeWidth = newImg.width;
 					self.largeHeight = newImg.height;
@@ -1132,7 +1153,11 @@ if ( typeof Object.create !== 'function' ) {
 			cursor:"default", // user should set to what they want the cursor as, if they have set a click function
 			responsive:false,
 			onComplete: $.noop,
-			onZoomedImageLoaded: function() {}
+			onZoomedImageLoaded: function() {},
+            videoSupport: false,
+            videoDataAttribute: 'video-id',
+            loadVideo: $.noop,
+            videoSelector: ''
 	};
 
 })( jQuery, window, document );
