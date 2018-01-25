@@ -1,5 +1,5 @@
 /*
- *	jQuery elevateZoom 2.4
+ *	jQuery elevateZoom 2.3.0
  *	Demo's and documentation:
  *	www.elevateweb.co.uk/image-zoom
  *
@@ -11,7 +11,7 @@
  *	http://en.wikipedia.org/wiki/GNU_General_Public_License
  *
  * 
- *  v2.4.0 - added custom video support
+ *  v2.3.0 - added custom video support
  */
 
 
